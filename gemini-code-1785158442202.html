@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المركبات الامنة للاستثمار | Safe Vehicles Investment</title>
+    
+    <!-- الخطوط والأيقونات -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* المتغيرات اللونية (لدعم الوضع العادي والليلي) */
+        :root {
+            /* ألوان ثابتة للهوية */
+            --primary-navy: #1a2035; 
+            --primary-gold: #f4b626; 
+            --whatsapp-color: #25d366;
+            
+            /* ألوان متغيرة حسب الوضع */
+            --bg-body: #f4f7f6;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --text-main: #1a2035;
+            --text-muted: #555555;
+            --border-color: #e0e0e0;
+            --hero-bg: linear-gradient(135deg, #1a2035 0%, #2a3454 100%);
+            --hero-text: #ffffff;
+            
+            --transition: all 0.3s ease;
+        }
+
+        /* متغيرات الوضع الليلي */
+        [data-theme="dark"] {
+            --bg-body: #121212;
+            --bg-header: #1e1e1e;
+            --bg-card: #242424;
+            --text-main: #f8f9fa;
+            --text-muted: #cccccc;
+            --border-color: #333333;
+            --hero-bg: linear-gradient(135deg, #0d111c 0%, #171c2e 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-body); color: var(--text-main); line-height: 1.7; transition: var(--transition); overflow-x: hidden; }
+
+        /* 1. شريط التنقل (Navbar) */
+        header {
+            background-color: var(--bg-header);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .logo img { max-height: 50px; }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--primary-gold); }
+
+        /* أزرار التحكم (لغة + وضع ليلي) */
+        .controls { display: flex; gap: 15px; align-items: center; }
+        
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .icon-btn:hover { color: var(--primary-gold); }
+
+        .lang-btn {
+            font-weight: 800;
+            background: var(--primary-gold);
+            color: var(--primary-navy);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .lang-btn:hover { transform: scale(1.05); }
+
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--text-main); }
+
+        /* 2. القسم الرئيسي (Hero) */
+        .hero {
+            background: var(--hero-bg);
+            color: var(--hero-text);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 20px; color: var(--primary-gold); }
+        .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 30px auto; color: #e0e0e0; }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-gold);
+            color: var(--primary-navy);
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 800;
+            transition: var(--transition);
+        }
+        .btn:hover { background-color: var(--bg-body); color: var(--primary-gold); border: 2px solid var(--primary-gold); }
+
+        /* 3. شريط الاعتمادات (Marquee) */
+        .partners-section {
+            background-color: var(--bg-header);
+            padding: 20px 0;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .marquee-container {
+            display: flex;
+            width: 200%;
+            animation: scrollMarquee 20s linear infinite;
+        }
+
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
+        html[dir="ltr"] .marquee-container { animation: scrollMarqueeLTR 20s linear infinite; }
+        @keyframes scrollMarqueeLTR { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .partner-item {
+            flex: 1;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+        .partner-item i { color: var(--primary-gold); margin: 0 5px; }
+
+        /* 4. قسم الخدمات */
+        .services { padding: 80px 5%; max-width: 1200px; margin: auto; text-align: center; }
+        .section-title { color: var(--text-main); font-size: 2rem; margin-bottom: 50px; position: relative; }
+        .section-title::after {
+            content: ''; width: 60px; height: 4px; background-color: var(--primary-gold);
+            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            border-bottom: 4px solid transparent;
+        }
+        .card:hover { transform: translateY(-10px); border-bottom: 4px solid var(--primary-gold); }
+        .card h3 { color: var(--primary-gold); margin-bottom: 15px; }
+        .card p { color: var(--text-muted); }
+
+        /* 5. الخط الزمني (Timeline) */
+        .timeline-section { padding: 80px 5%; background-color: var(--bg-body); }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-right: 40px; }
+        
+        .timeline::before {
+            content: ''; position: absolute; right: 15px; top: 0; width: 4px; height: 100%;
+            background-color: var(--primary-gold); border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative; background: var(--bg-card); padding: 25px;
+            border-radius: 15px; margin-bottom: 30px; border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition);
+        }
+        .timeline-item:hover { transform: translateX(-10px); }
+
+        .timeline-item::before {
+            content: ''; position: absolute; right: -34px; top: 25px; width: 20px; height: 20px;
+            background-color: var(--bg-card); border: 5px solid var(--primary-gold); border-radius: 50%;
+        }
+
+        .timeline-item h3 { color: var(--text-main); margin-bottom: 10px; }
+        .timeline-item p { color: var(--text-muted); }
+
+        /* دعم الخط الزمني للغة الإنجليزية (LTR) */
+        html[dir="ltr"] .timeline { padding-right: 0; padding-left: 40px; }
+        html[dir="ltr"] .timeline::before { right: auto; left: 15px; }
+        html[dir="ltr"] .timeline-item:hover { transform: translateX(10px); }
+        html[dir="ltr"] .timeline-item::before { right: auto; left: -34px; }
+
+        /* 6. قسم العدادات (Stats) */
+        .stats-section { background-color: var(--hero-bg); color: var(--hero-text); padding: 60px 20px; text-align: center; }
+        .stat-item {
+            padding: 20px; border: 2px dashed rgba(244, 182, 38, 0.3);
+            border-radius: 15px; transition: var(--transition);
+        }
+        .stat-item:hover { border-color: var(--primary-gold); }
+        .stat-number { font-size: 3rem; font-weight: 800; color: var(--primary-gold); }
+
+        /* 7. التذييل (Footer) */
+        footer {
+            background-color: var(--bg-header); color: var(--text-muted);
+            text-align: center; padding: 40px 20px; border-top: 5px solid var(--primary-gold);
+        }
+        .footer-info h3 { color: var(--text-main); margin-bottom: 20px; }
+        .footer-info span { color: var(--primary-gold); font-weight: bold; }
+
+        /* 8. زر الواتساب (WhatsApp) */
+        .floating-whatsapp {
+            position: fixed; bottom: 30px; left: 30px; background-color: var(--whatsapp-color);
+            color: white; width: 60px; height: 60px; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 35px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000;
+            text-decoration: none; animation: pulse 2s infinite;
+        }
+        html[dir="ltr"] .floating-whatsapp { left: auto; right: 30px; }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* الموبايل (Responsive) */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; flex-direction: column; position: absolute;
+                top: 80px; left: 0; width: 100%; background-color: var(--bg-header);
+                padding: 20px 0; box-shadow: 0 10px 10px rgba(0,0,0,0.1); text-align: center;
+            }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .controls { margin-right: auto; margin-left: 20px; }
+            html[dir="ltr"] .controls { margin-right: 20px; margin-left: auto; }
+            .hero h1 { font-size: 1.8rem; }
+            .marquee-container { width: 400%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="image_4875dd.png" alt="المركبات الامنة للاستثمار">
+            </div>
+            
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home" data-i18n="nav_home">الرئيسية</a></li>
+                <li><a href="#services" data-i18n="nav_services">خدماتنا</a></li>
+                <li><a href="#how-it-works" data-i18n="nav_works">آلية العمل</a></li>
+                <li><a href="#stats" data-i18n="nav_stats">إحصائياتنا</a></li>
+                <li><a href="#contact" data-i18n="nav_contact">اتصل بنا</a></li>
+            </ul>
+
+            <div class="controls">
+                <button class="icon-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
+                <button class="lang-btn" id="langToggle">EN</button>
+                <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero" id="home">
+        <h1 data-i18n="hero_title">المركبات الامنة للاستثمار</h1>
+        <p data-i18n="hero_desc">نحن شركة رائدة في مجال الفحص الفني الدوري لسلامة المركبات على الطرق، ونسعى جاهدين لتحقيق راحة البال لعملائنا وتوفير أعلى معايير الجودة.</p>
+        <a href="#services" class="btn" data-i18n="hero_btn">استكشف خدماتنا</a>
+    </section>
+
+    <!-- شريط الاعتمادات -->
+    <section class="partners-section">
+        <div class="marquee-container">
+            <div class="partner-item"><i class="fas fa-check-circle"></i> <span data-i18n="marq_1">معتمدون رسمياً</span></div>
+            <div class="partner-item"><i class="fas fa-shield-alt"></i> <span data-i18n="marq_2">أعلى معايير الجودة</span></div>
+            <div class="partner-item"><i class="fas fa-car-crash"></i> <span data-i18n="marq_3">دقة الفحص الفني</span></div>
+            <div class="partner-item"><i class="fas fa-building"></i> <span data-i18n="marq_4">رواد الإدارة العقارية</span></div>
+            
+            <!-- تكرار للحركة المستمرة -->
+            <div class="partner-item"><i class="fas fa-check-circle"></i> <span data-i18n="marq_1">معتمدون رسمياً</span></div>
+            <div class="partner-item"><i class="fas fa-shield-alt"></i> <span data-i18n="marq_2">أعلى معايير الجودة</span></div>
+            <div class="partner-item"><i class="fas fa-car-crash"></i> <span data-i18n="marq_3">دقة الفحص الفني</span></div>
+            <div class="partner-item"><i class="fas fa-building"></i> <span data-i18n="marq_4">رواد الإدارة العقارية</span></div>
+        </div>
+    </section>
+
+    <!-- قسم الخدمات -->
+    <section class="services" id="services">
+        <h2 class="section-title" data-i18n="sec_services_title">خدماتنا المتكاملة</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 data-i18n="srv_1_title">الفحص الفني الدوري</h3>
+                <p data-i18n="srv_1_desc">نقدم خدمات فحص شاملة للمركبات للتأكد من توافقها مع معايير السلامة على الطرق بمهنية عالية.</p>
+            </div>
+            <div class="card">
+                <h3 data-i18n="srv_2_title">الخدمات العقارية</h3>
+                <p data-i18n="srv_2_desc">نقدم خدمات متكاملة تشمل شراء وبيع الأراضي العقارية، وإدارة وتأجير العقارات السكنية وغير السكنية.</p>
+            </div>
+            <div class="card">
+                <h3 data-i18n="srv_3_title">إدارة الأملاك والمزادات</h3>
+                <p data-i18n="srv_3_desc">إدارة الأملاك لتحقيق العوائد الاستثمارية، وتنظيم مزادات عقارية لتيسير عمليات البيع بطريقة شفافة وعادلة.</p>
+            </div>
+            <div class="card">
+                <h3 data-i18n="srv_4_title">الصيانة والتشغيل</h3>
+                <p data-i18n="srv_4_desc">إدارة عمليات الصيانة والتشغيل في المباني لضمان كفاءتها، بالإضافة لخدمات إدارة المال وحفظه للمنشآت.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- الخط الزمني لآلية العمل -->
+    <section class="timeline-section" id="how-it-works">
+        <h2 class="section-title" style="text-align: center;" data-i18n="sec_timeline_title">كيف تسير رحلتك معنا؟</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3 data-i18n="tl_1_title">1. تواصل معنا واحجز موعدك</h3>
+                <p data-i18n="tl_1_desc">بضغطة زر واحدة، يمكنك تحديد الخدمة المطلوبة سواء كانت فحصاً لمركبتك لضمان سلامتها، أو استشارة لإدارة أملاكك العقارية.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 data-i18n="tl_2_title">2. التقييم والفحص الشامل</h3>
+                <p data-i18n="tl_2_desc">يقوم خبراؤنا بإجراء الفحص الفني الدقيق للمركبة أو دراسة وتقييم العقار لضمان مطابقته لأعلى معايير الجودة.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 data-i18n="tl_3_title">3. استلام التقارير والعوائد</h3>
+                <p data-i18n="tl_3_desc">تستلم تقريراً معتمداً يضمن سلامة مركبتك، أو تبدأ في جني العوائد الاستثمارية المربحة لعقارك بزيادة الكفاءة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم العدادات -->
+    <section class="stats-section" id="stats">
+        <h2 style="margin-bottom: 40px; font-size: 2rem; color: var(--primary-gold);" data-i18n="sec_stats_title">أرقام تعكس ثقتكم</h2>
+        <div class="grid" style="max-width: 1200px; margin: auto;">
+            <div class="stat-item">
+                <span class="stat-number" data-base="1500" data-weekly-increase="12" data-suffix="+">0</span>
+                <p style="font-weight: 700;" data-i18n="stat_1_title">مركبة تم فحصها</p>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-base="45" data-weekly-increase="2" data-suffix="">0</span>
+                <p style="font-weight: 700;" data-i18n="stat_2_title">عقار تحت الإدارة</p>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-base="98" data-weekly-increase="0" data-suffix="%">0</span>
+                <p style="font-weight: 700;" data-i18n="stat_3_title">نسبة رضا العملاء</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer id="contact">
+        <div class="footer-info">
+            <h3 data-i18n="footer_title">تواصل معنا</h3>
+            <p><span data-i18n="footer_address_lbl">العنوان:</span> <span style="color: inherit; font-weight: normal;" data-i18n="footer_address_val">خميس مشيط - برج الزهور</span></p>
+            <p><span data-i18n="footer_phone_lbl">الهاتف:</span> <span style="color: inherit; font-weight: normal; direction: ltr; display: inline-block;">0564558867</span></p>
+            <p><span data-i18n="footer_email_lbl">البريد الإلكتروني:</span> <span style="color: inherit; font-weight: normal;">CEO@EAS.SA</span></p>
+            <p><span data-i18n="footer_web_lbl">الموقع الإلكتروني:</span> <span style="color: inherit; font-weight: normal;">Siv.sa</span></p>
+        </div>
+    </footer>
+
+    <!-- زر الواتساب -->
+    <a href="https://wa.me/966564558867" target="_blank" class="floating-whatsapp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- سكربتات التفاعلات، اللغة، والوضع الليلي -->
+    <script>
+        /* ==============================
+           1. قائمة الموبايل
+           ============================== */
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        mobileMenu.addEventListener('click', () => navLinks.classList.toggle('active'));
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('active'));
+        });
+
+        /* ==============================
+           2. العدادات الذكية
+           ============================== */
+        document.addEventListener("DOMContentLoaded", () => {
+            const startDate = new Date("2024-01-01").getTime();
+            const weeksPassed = Math.floor((new Date().getTime() - startDate) / (1000 * 60 * 60 * 24 * 7));
+            const counters = document.querySelectorAll('.stat-number');
+            let started = false;
+
+            function startCounting() {
+                counters.forEach(counter => {
+                    const base = parseInt(counter.getAttribute('data-base'));
+                    const increase = parseInt(counter.getAttribute('data-weekly-increase'));
+                    const suffix = counter.getAttribute('data-suffix');
+                    const target = base + (weeksPassed * increase);
+                    let current = 0;
+                    const increment = target / 100; 
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            counter.innerText = Math.ceil(target) + suffix;
+                            clearInterval(timer);
+                        } else {
+                            counter.innerText = Math.ceil(current) + suffix;
+                        }
+                    }, 20);
+                });
+            }
+
+            const observer = new IntersectionObserver(entries => {
+                if (entries[0].isIntersecting && !started) {
+                    startCounting();
+                    started = true;
+                }
+            }, { threshold: 0.5 });
+            observer.observe(document.querySelector('.stats-section'));
+        });
+
+        /* ==============================
+           3. الوضع الليلي (Dark Mode)
+           ============================== */
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlEl = document.documentElement;
+        
+        // التحقق من الوضع المحفوظ مسبقاً
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlEl.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            htmlEl.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            themeToggle.innerHTML = theme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun" style="color: var(--primary-gold);"></i>';
+        }
+
+        /* ==============================
+           4. نظام الترجمة (Localization)
+           ============================== */
+        const translations = {
+            ar: {
+                nav_home: "الرئيسية", nav_services: "خدماتنا", nav_works: "آلية العمل", nav_stats: "إحصائياتنا", nav_contact: "اتصل بنا",
+                hero_title: "المركبات الامنة للاستثمار", hero_desc: "نحن شركة رائدة في مجال الفحص الفني الدوري لسلامة المركبات على الطرق، ونسعى جاهدين لتحقيق راحة البال لعملائنا وتوفير أعلى معايير الجودة.", hero_btn: "استكشف خدماتنا",
+                marq_1: "معتمدون رسمياً", marq_2: "أعلى معايير الجودة", marq_3: "دقة الفحص الفني", marq_4: "رواد الإدارة العقارية",
+                sec_services_title: "خدماتنا المتكاملة",
+                srv_1_title: "الفحص الفني الدوري", srv_1_desc: "نقدم خدمات فحص شاملة للمركبات للتأكد من توافقها مع معايير السلامة على الطرق بمهنية عالية.",
+                srv_2_title: "الخدمات العقارية", srv_2_desc: "نقدم خدمات متكاملة تشمل شراء وبيع الأراضي العقارية، وإدارة وتأجير العقارات السكنية وغير السكنية.",
+                srv_3_title: "إدارة الأملاك والمزادات", srv_3_desc: "إدارة الأملاك لتحقيق العوائد الاستثمارية، وتنظيم مزادات عقارية لتيسير عمليات البيع بطريقة شفافة وعادلة.",
+                srv_4_title: "الصيانة والتشغيل", srv_4_desc: "إدارة عمليات الصيانة والتشغيل في المباني لضمان كفاءتها، بالإضافة لخدمات إدارة المال وحفظه للمنشآت.",
+                sec_timeline_title: "كيف تسير رحلتك معنا؟",
+                tl_1_title: "1. تواصل معنا واحجز موعدك", tl_1_desc: "بضغطة زر واحدة، يمكنك تحديد الخدمة المطلوبة سواء كانت فحصاً لمركبتك لضمان سلامتها، أو استشارة لإدارة أملاكك العقارية.",
+                tl_2_title: "2. التقييم والفحص الشامل", tl_2_desc: "يقوم خبراؤنا بإجراء الفحص الفني الدقيق للمركبة أو دراسة وتقييم العقار لضمان مطابقته لأعلى معايير الجودة.",
+                tl_3_title: "3. استلام التقارير والعوائد", tl_3_desc: "تستلم تقريراً معتمداً يضمن سلامة مركبتك، أو تبدأ في جني العوائد الاستثمارية المربحة لعقارك بزيادة الكفاءة.",
+                sec_stats_title: "أرقام تعكس ثقتكم",
+                stat_1_title: "مركبة تم فحصها", stat_2_title: "عقار تحت الإدارة", stat_3_title: "نسبة رضا العملاء",
+                footer_title: "تواصل معنا", footer_address_lbl: "العنوان:", footer_address_val: "خميس مشيط - برج الزهور",
+                footer_phone_lbl: "الهاتف:", footer_email_lbl: "البريد الإلكتروني:", footer_web_lbl: "الموقع الإلكتروني:"
+            },
+            en: {
+                nav_home: "Home", nav_services: "Services", nav_works: "How it Works", nav_stats: "Stats", nav_contact: "Contact",
+                hero_title: "Safe Vehicles Investment", hero_desc: "We are a leading company in the periodic technical inspection for vehicle road safety, striving to provide peace of mind to our customers and the highest quality standards.", hero_btn: "Explore Services",
+                marq_1: "Officially Certified", marq_2: "Highest Quality Standards", marq_3: "Inspection Accuracy", marq_4: "Real Estate Pioneers",
+                sec_services_title: "Our Integrated Services",
+                srv_1_title: "Periodic Technical Inspection", srv_1_desc: "We provide comprehensive vehicle inspection services to ensure compliance with road safety standards professionally.",
+                srv_2_title: "Real Estate Services", srv_2_desc: "Integrated services including buying and selling lands, and managing/renting residential and non-residential properties.",
+                srv_3_title: "Property Management & Auctions", srv_3_desc: "Managing properties to achieve investment returns, and organizing real estate auctions to facilitate transparent sales.",
+                srv_4_title: "Maintenance & Operation", srv_4_desc: "Managing maintenance operations in buildings to ensure efficiency, plus financial management services for facilities.",
+                sec_timeline_title: "How Your Journey Goes?",
+                tl_1_title: "1. Contact & Book", tl_1_desc: "With one click, select your required service whether it's a vehicle inspection or a real estate consultation.",
+                tl_2_title: "2. Evaluation & Inspection", tl_2_desc: "Our experts conduct accurate technical inspections or property evaluations to ensure compliance with the highest standards.",
+                tl_3_title: "3. Receive Reports & Returns", tl_3_desc: "Receive a certified safety report for your vehicle, or start reaping profitable investment returns for your property.",
+                sec_stats_title: "Numbers Reflecting Your Trust",
+                stat_1_title: "Vehicles Inspected", stat_2_title: "Properties Managed", stat_3_title: "Customer Satisfaction",
+                footer_title: "Contact Us", footer_address_lbl: "Address:", footer_address_val: "Khamis Mushait - Al-Zuhour Tower",
+                footer_phone_lbl: "Phone:", footer_email_lbl: "Email:", footer_web_lbl: "Website:"
+            }
+        };
+
+        const langToggle = document.getElementById('langToggle');
+        let currentLang = localStorage.getItem('lang') || 'ar';
+        setLanguage(currentLang);
+
+        langToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            setLanguage(currentLang);
+            localStorage.setItem('lang', currentLang);
+        });
+
+        function setLanguage(lang) {
+            // تحديث النصوص
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if(translations[lang][key]) el.textContent = translations[lang][key];
+            });
+            // تحديث اتجاه الصفحة وزر اللغة
+            htmlEl.setAttribute('lang', lang);
+            htmlEl.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+            langToggle.textContent = lang === 'ar' ? 'EN' : 'عربي';
+        }
+    </script>
+</body>
+</html>
